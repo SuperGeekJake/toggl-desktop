@@ -1,9 +1,11 @@
 global.perfStartTime = Date.now()
+require('./common/require')()
 
 import { app, BrowserWindow } from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as url from 'url'
+import * as screens from 'common/screens'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,7 +19,8 @@ function createWindow() {
   win.loadURL(url.format({
     protocol: 'file',
     slashes: true,
-    pathname: path.join(__dirname, 'index.html')
+    pathname: path.join(__dirname, 'index.html'),
+    hash: screens.APP_SCREEN
   }))
 
   // Open the DevTools.

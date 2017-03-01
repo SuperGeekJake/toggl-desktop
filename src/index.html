@@ -7,6 +7,13 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>require('./browser')</script>
+    <script>
+      if (process.env.NODE_ENV !== 'production') {
+        require('electron-react-devtools').install()
+      }
+   
+      const screen = window.location.hash
+      require('./browser').bootstrap(screen)
+    </script>
   </body>
 </html>
