@@ -1,26 +1,43 @@
 global.perfStartTime = Date.now()
-require('./common/require')()
+process.env.TOGGL_ENV = process.env.NODE_ENV || 'DEV'
 
+import 'rxjs/Rx'
 import { app, BrowserWindow } from 'electron'
-import * as fs from 'fs'
 import * as path from 'path'
 import * as url from 'url'
-import * as screens from 'common/screens'
+import { createStore, applyMiddleware } from 'redux'
+import { forwardToRenderer, triggerAlias, replayActionMain } from 'electron-redux'
+import { createEpicMiddleware } from 'redux-observable'
+import * as createNodeLogger from 'redux-node-logger'
+import * as settings from 'electron-settings'
+
+import { rootReducer, rootEpic } from './state'
+import * as screens from './libs/screens'
+import appDefaults from './libs/defaults'
+import Socket from './libs/socket'
+
+const MWT_HEIGHT = 22
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win, socket
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600 })
+  win = new BrowserWindow({
+    width: 600,
+    height: 517 + MWT_HEIGHT,
+    resizable: false,
+    maximizable: false,
+    fullscreenable: false
+  })
 
   // and load the index.html of the app.
   win.loadURL(url.format({
     protocol: 'file',
     slashes: true,
     pathname: path.join(__dirname, 'index.html'),
-    hash: screens.APP_SCREEN
+    hash: screens.LOGIN_SCREEN
   }))
 
   // Open the DevTools.
@@ -40,7 +57,23 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   global.perfAppReady = Date.now()
-  process.env['LOCALE'] = 'en'
+  process.env.LOCALE = 'en'
+  settings.defaults(appDefaults)
+
+  const logger = createNodeLogger()
+  const middleware = applyMiddleware(
+    triggerAlias,
+    createEpicMiddleware(rootEpic),
+    forwardToRenderer,
+    logger
+  )
+
+  const store = createStore(rootReducer, middleware)
+  replayActionMain(store)
+
+  socket = new Socket(store)
+  store.dispatch({ type: 'APP_INIT' })
+
   createWindow()
 })
 

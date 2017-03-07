@@ -2,6 +2,7 @@ const del = require('del')
 const run = require('run-sequence')
 const gulp = require('gulp')
 const tsc = require('gulp-typescript')
+const sourcemaps = require('gulp-sourcemaps')
 
 const DIR_OUT = 'out'
 const DIR_OUT_BUILD = 'out-build'
@@ -11,7 +12,9 @@ const SRC_HTML = 'src/index.html'
 gulp.task('compile-scripts', () => {
   const tsProject = tsc.createProject('src/tsconfig.json')
   return gulp.src(SRC_TS)
+    .pipe(sourcemaps.init())
     .pipe(tsProject()).js
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(DIR_OUT))
 })
 

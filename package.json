@@ -9,27 +9,46 @@
   "scripts": {
     "clean": "gulp clean",
     "compile": "gulp compile",
-    "start": "electron .",
+    "start": "electron --debug=9222 .",
     "watch": "gulp watch & npm run start",
     "develop": "npm run compile && npm run watch",
     "build": "gulp compile-build"
   },
   "devDependencies": {
     "@types/electron": "^1.4.32",
+    "@types/lodash": "^4.14.54",
+    "@types/material-ui": "^0.16.51",
     "@types/node": "^7.0.5",
     "@types/react": "^15.0.12",
     "@types/react-dom": "^0.14.23",
+    "@types/ws": "0.0.38",
     "del": "^2.2.2",
     "electron": "^1.4.15",
     "electron-react-devtools": "^0.4.0",
     "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^2.4.1",
     "gulp-typescript": "^3.1.5",
     "run-sequence": "^1.2.2",
+    "tslint": "^4.5.1",
     "typescript": "^2.2.1"
   },
   "dependencies": {
+    "csx": "^8.2.1",
+    "electron-redux": "^1.2.5",
+    "electron-settings": "^2.2.2",
+    "flux-standard-action": "^1.2.0",
+    "lodash": "^4.17.4",
+    "material-ui": "^0.17.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "typestyle": "^1.2.0"
+    "react-redux": "^5.0.3",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
+    "redux-node-logger": "^0.1.0",
+    "redux-observable": "^0.14.0",
+    "roboto-fontface": "^0.7.0",
+    "rxjs": "^5.2.0",
+    "typestyle": "^1.2.0",
+    "ws": "^2.2.0"
   }
 }

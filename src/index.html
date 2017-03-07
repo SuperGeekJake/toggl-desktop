@@ -4,16 +4,15 @@
     <meta charset="utf-8">
     <title>Toggl</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../node_modules/roboto-fontface/css/roboto/roboto-fontface.css">
+    <link rel="stylesheet" href="../node_modules/roboto-fontface/css/roboto-condensed/roboto-condensed-fontface.css">
+    <link rel="stylesheet" href="../node_modules/roboto-fontface/css/roboto-slab/roboto-slab-fontface.css">
   </head>
   <body>
     <div id="root"></div>
     <script>
-      if (process.env.NODE_ENV !== 'production') {
-        require('electron-react-devtools').install()
-      }
-   
       const screen = window.location.hash
-      require('./browser').bootstrap(screen)
+      require('./browser-main').bootstrap(screen)
     </script>
   </body>
 </html>

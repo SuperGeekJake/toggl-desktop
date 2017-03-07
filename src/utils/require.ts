@@ -1,17 +1,18 @@
 import * as path from 'path'
 import * as fs from 'fs'
 
-module.exports = () => {
+(() => {
   const CH_PERIOD = 46
-  const existsCache = { d: 0 }; delete existsCache.d
+  const existsCache = { d: 0 }
+  delete existsCache.d
 
-  const mainModule = process['mainModule']
-  if (!mainModule) throw new Error('baseUrl not defined in tsconfig.json')
-  const baseUrl = path.dirname(mainModule.filename)
-  
+  if (!process.hasOwnProperty('mainModule') || !process.mainModule)
+    throw new Error('The required setting baseUrl is undefined in tsconfig.json')
+
+  const baseUrl = path.dirname(process.mainModule.filename)
   const moduleProto = Object.getPrototypeOf(module)
   const origRequire = moduleProto.require
-  moduleProto.require = function (request) {
+  moduleProto.require = (request) => {
     let existsPath = existsCache[request]
     if (existsPath === undefined) {
       existsPath = ''
@@ -28,4 +29,4 @@ module.exports = () => {
     }
     return origRequire.call(this, existsPath || request)
   }
-}
+})()
