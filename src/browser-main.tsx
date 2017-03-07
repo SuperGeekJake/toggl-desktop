@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import * as settings from 'electron-settings'
 
 import { rootReducer, actions } from './state'
-import { isEnvDev } from './utils'
+import { isEnvDev } from './utils/env'
 import './global.css'
 
 injectTapEventPlugin()
