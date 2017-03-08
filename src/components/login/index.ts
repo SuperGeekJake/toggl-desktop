@@ -1,20 +1,21 @@
 import { connect } from 'react-redux'
-
+import { bindActionCreators } from 'redux'
 import { actions } from '../../state'
 import LoginScreen from './login-screen'
 
 function mapStateToProps (state) {
-  const { auth } = state
+  const { auth, connectivity } = state
   return {
-    remember: auth.remember
+    remember: auth.remember,
+    online: connectivity.online
   }
 }
 
 function mapDispatchToProps (dispatch) {
-  const { auth } = actions
   return {
-    dispatchLogin: (email: string, password: string) => {
-      dispatch(auth.login(email, password))
+    actions: {
+      auth: bindActionCreators(actions.auth, dispatch),
+      connectivity: bindActionCreators(actions.connectivity, dispatch)
     }
   }
 }

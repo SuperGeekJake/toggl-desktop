@@ -10,6 +10,7 @@
     "clean": "gulp clean",
     "compile": "gulp compile",
     "start": "electron --debug=9222 .",
+    "serve": "gulp compile && npm run start",
     "watch": "gulp watch & npm run start",
     "develop": "npm run compile && npm run watch",
     "build": "gulp compile-build"
@@ -24,6 +25,7 @@
     "@types/ws": "0.0.38",
     "del": "^2.2.2",
     "electron": "^1.4.15",
+    "electron-connect": "^0.6.1",
     "electron-react-devtools": "^0.4.0",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.4.1",

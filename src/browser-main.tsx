@@ -8,16 +8,16 @@ import * as settings from 'electron-settings'
 
 import { rootReducer, actions } from './state'
 import { isEnvDev } from './utils/env'
+import TogglTheme from './components/common/toggl-theme'
+import Connectivity from './components/common/connectivity'
+
 import './global.css'
 
 injectTapEventPlugin()
 
 export const bootstrap = (hash: string) => {
   const screenName = hash.substring(1)
-  const screenModule = require(`./components/${screenName}`)
-
-  if (!screenModule.default) throw new Error('Screen component missing default export')
-  const RootComponent = screenModule.default
+  const ScreenComponent = require(`./components/${screenName}`).default
 
   const initState = getInitialStateRenderer()
   const store = createStore(rootReducer, initState, applyMiddleware(forwardToMain))
@@ -25,7 +25,13 @@ export const bootstrap = (hash: string) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <RootComponent />
+      <TogglTheme>
+        <div>
+          <ScreenComponent />
+
+          <Connectivity />
+        </div>
+      </TogglTheme>
     </Provider>,
     document.getElementById('root')
   )

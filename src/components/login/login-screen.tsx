@@ -7,8 +7,9 @@ import ExternalButton from '../common/external-button'
 import * as styles from './login.css'
 
 export interface IProps {
+  online: boolean
   remember: boolean | null
-  dispatchLogin(email: string, password: string)
+  actions: any
 }
 
 export interface IState {
@@ -49,11 +50,11 @@ class LoginScreen extends PureComponent<IProps, IState> {
 
   handleSubmit(e) {
     const { email, password, loading } = this.state
-    const { dispatchLogin } = this.props
-    if (loading) return
+    const { online, actions } = this.props
+    if (loading || !online) return
 
     this.setState({ loading: true })
-    dispatchLogin(email, password)
+    actions.auth.login(email, password)
   }
 
   handleGoogleLogin(e) {
