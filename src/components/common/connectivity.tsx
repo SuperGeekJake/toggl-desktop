@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    connectivityActions: bindActionCreators(actions.connectivity, dispatch)
+    connectivityActions: bindActionCreators(actions.data.connectivity, dispatch)
   }
 }
 

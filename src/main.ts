@@ -9,19 +9,18 @@ import { createStore, applyMiddleware } from 'redux'
 import { forwardToRenderer, triggerAlias, replayActionMain } from 'electron-redux'
 import { createEpicMiddleware } from 'redux-observable'
 import * as createNodeLogger from 'redux-node-logger'
-import * as settings from 'electron-settings'
 
 import { rootReducer, rootEpic } from './state'
 import * as api from './api'
-import * as screens from './libs/screens'
-import appDefaults from './libs/defaults'
-import Socket from './libs/socket'
+import * as screens from './lib/screens'
+import Socket from './lib/socket'
 
 const MWT_HEIGHT = 22
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win, socket
+let win
+let socket
 
 function createWindow() {
   // Create the browser window.
@@ -59,7 +58,6 @@ function createWindow() {
 app.on('ready', () => {
   global.perfAppReady = Date.now()
   process.env.LOCALE = 'en'
-  settings.defaults(appDefaults)
 
   const logger = createNodeLogger()
   const middleware = applyMiddleware(
