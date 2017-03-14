@@ -4,18 +4,19 @@ import { actions } from '../../state'
 import LoginScreen from './login-screen'
 
 function mapStateToProps (state) {
-  const { auth, connectivity } = state
+  const { user, connectivity } = state.data
   return {
-    remember: auth.remember,
+    remember: user.remember,
     online: connectivity.online
   }
 }
 
 function mapDispatchToProps (dispatch) {
+  const { connectivity, user } = actions.data
   return {
     actions: {
-      auth: bindActionCreators(actions.auth, dispatch),
-      connectivity: bindActionCreators(actions.connectivity, dispatch)
+      user: bindActionCreators(user, dispatch),
+      connectivity: bindActionCreators(connectivity, dispatch)
     }
   }
 }

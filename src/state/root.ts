@@ -1,13 +1,21 @@
 import { combineEpics } from 'redux-observable'
 import { combineReducers } from 'redux'
 
-import { auth, authInitEpic } from './auth'
-import { connectivity } from './connectivity'
+import {
+  user,
+  userAuthEpic,
+  userFetchEpic,
+  connectivity
+} from './data'
 
 export const rootEpic = combineEpics(
-  authInitEpic
+  userAuthEpic,
+  userFetchEpic
 )
 
 export const rootReducer = combineReducers({
-  auth, connectivity
+  data: combineReducers({
+    connectivity,
+    user
+  })
 })

@@ -1,6 +1,5 @@
 const appDefaults = {
-  auth: {
-    key: null,
+  user: {
     remember: true
   }
 }

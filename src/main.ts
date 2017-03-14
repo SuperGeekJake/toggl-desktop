@@ -12,6 +12,7 @@ import * as createNodeLogger from 'redux-node-logger'
 import * as settings from 'electron-settings'
 
 import { rootReducer, rootEpic } from './state'
+import * as api from './api'
 import * as screens from './libs/screens'
 import appDefaults from './libs/defaults'
 import Socket from './libs/socket'
@@ -63,7 +64,9 @@ app.on('ready', () => {
   const logger = createNodeLogger()
   const middleware = applyMiddleware(
     triggerAlias,
-    createEpicMiddleware(rootEpic),
+    createEpicMiddleware(rootEpic, {
+      dependencies: { api }
+    }),
     forwardToRenderer,
     logger
   )

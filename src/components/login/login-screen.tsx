@@ -36,14 +36,9 @@ class LoginScreen extends PureComponent<IProps, IState> {
   }
 
   handleChange(e) {
-    const name = e.target.name
-
-    let value
-    if (name === 'remember') {
-      value = !this.state.remember
-    } else {
-      value = e.target.value
-    }
+    const target = e.target
+    const name = target.name
+    const value = target.type === 'checkbox' ? target.checked : target.value
 
     this.setState({ [name]: value })
   }
@@ -54,7 +49,7 @@ class LoginScreen extends PureComponent<IProps, IState> {
     if (loading || !online) return
 
     this.setState({ loading: true })
-    actions.auth.login(email, password)
+    actions.user.login(email, password)
   }
 
   handleGoogleLogin(e) {

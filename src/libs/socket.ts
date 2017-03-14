@@ -4,7 +4,7 @@ import { actions } from '../state'
 
 const RECONNECTION_DELAY = 1000
 
-const { connected, disconnected } = actions.connectivity
+const { connected, disconnected } = actions.data.connectivity
 
 class Socket {
   private store: Store<State.App>

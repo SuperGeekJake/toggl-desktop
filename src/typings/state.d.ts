@@ -1,7 +1,7 @@
 declare namespace State {
   interface App {
     connectivity: Connectivity
-    auth: Auth
+    user: User
   }
 
   interface Action {
@@ -11,7 +11,7 @@ declare namespace State {
     meta?: any
   }
 
-  interface Auth {
+  interface User {
     key: string | null,
     remember: boolean | null
   }
