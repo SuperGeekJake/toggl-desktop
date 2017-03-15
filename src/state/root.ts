@@ -5,7 +5,8 @@ import {
   user,
   userAuthEpic,
   userFetchEpic,
-  connectivity
+  connectivity,
+  workspaces
 } from './data'
 
 export const rootEpic = combineEpics(
@@ -16,6 +17,7 @@ export const rootEpic = combineEpics(
 export const rootReducer = combineReducers({
   data: combineReducers({
     connectivity,
-    user
+    user,
+    workspaces
   })
 })

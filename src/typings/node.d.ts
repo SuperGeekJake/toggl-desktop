@@ -3,5 +3,6 @@ declare namespace NodeJS {
     toggl: any
     perfStartTime: Number
     perfAppReady: Number
+    projectDir: string
   }
 }

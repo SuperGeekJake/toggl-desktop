@@ -12,12 +12,9 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  const { connectivity, user } = actions.data
+  const { user } = actions.data
   return {
-    actions: {
-      user: bindActionCreators(user, dispatch),
-      connectivity: bindActionCreators(connectivity, dispatch)
-    }
+    actions: bindActionCreators(user, dispatch)
   }
 }
 

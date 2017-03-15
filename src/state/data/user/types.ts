@@ -1,4 +1,7 @@
 export const USER_AUTH = 'USER_AUTH'
+export const USER_AUTH_SUCCESS = 'USER_AUTH_SUCCESS'
+export const USER_AUTH_ERROR = 'USER_AUTH_ERROR'
+
 export const USER_FETCH = 'USER_FETCH'
 export const USER_FETCH_SUCCESS = 'USER_FETCH_SUCCESS'
 export const USER_FETCH_ERROR = 'USER_FETCH_ERROR'

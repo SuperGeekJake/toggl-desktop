@@ -1,14 +1,14 @@
 import * as types from './types'
-import { fetchSuccess, fetchError } from './actions'
+import { userAuthSuccess, userAuthError, userFetchSuccess, userFetchError } from './actions'
 
 export const userAuthEpic = (action$, store, { api }) =>
   action$.ofType(types.USER_AUTH)
     .mergeMap(({ payload }) => api.authenticate(payload))
-    .map(fetchSuccess)
-    .catch(fetchError)
+    .map(userAuthSuccess)
+    .catch(userAuthError)
 
 export const userFetchEpic = (action$, store, { api }) =>
   action$.ofType(types.USER_FETCH)
     .mergeMap(action => api.getUserData(store.getState()))
-    .map(fetchSuccess)
-    .catch(fetchError)
+    .map(userFetchSuccess)
+    .catch(userFetchError)

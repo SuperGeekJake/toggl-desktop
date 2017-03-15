@@ -49,7 +49,7 @@ class LoginScreen extends PureComponent<IProps, IState> {
     if (loading || !online) return
 
     this.setState({ loading: true })
-    actions.user.auth(email, password)
+    actions.userAuth(email, password)
   }
 
   handleGoogleLogin(e) {

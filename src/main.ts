@@ -1,10 +1,10 @@
 global.perfStartTime = Date.now()
 process.env.TOGGL_ENV = process.env.NODE_ENV || 'DEV'
 
+global.projectDir = __dirname
+
 import 'rxjs/Rx'
-import { app, BrowserWindow } from 'electron'
-import * as path from 'path'
-import * as url from 'url'
+import { app } from 'electron'
 import { createStore, applyMiddleware } from 'redux'
 import { forwardToRenderer, triggerAlias, replayActionMain } from 'electron-redux'
 import { createEpicMiddleware } from 'redux-observable'
@@ -13,44 +13,11 @@ import * as createNodeLogger from 'redux-node-logger'
 import { rootReducer, rootEpic } from './state'
 import * as api from './api'
 import * as screens from './lib/screens'
+import { LOGIN_SCREEN } from './lib/screens'
 import Socket from './lib/socket'
 
-const MWT_HEIGHT = 22
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let win
+let store
 let socket
-
-function createWindow() {
-  // Create the browser window.
-  win = new BrowserWindow({
-    width: 600,
-    height: 517 + MWT_HEIGHT,
-    resizable: false,
-    maximizable: false,
-    fullscreenable: false
-  })
-
-  // and load the index.html of the app.
-  win.loadURL(url.format({
-    protocol: 'file',
-    slashes: true,
-    pathname: path.join(__dirname, 'index.html'),
-    hash: screens.LOGIN_SCREEN
-  }))
-
-  // Open the DevTools.
-  win.webContents.openDevTools()
-
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  })
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -60,22 +27,20 @@ app.on('ready', () => {
   process.env.LOCALE = 'en'
 
   const logger = createNodeLogger()
+  const epicMiddleware = createEpicMiddleware(rootEpic, { dependencies: { api } })
   const middleware = applyMiddleware(
     triggerAlias,
-    createEpicMiddleware(rootEpic, {
-      dependencies: { api }
-    }),
+    epicMiddleware,
     forwardToRenderer,
     logger
   )
 
-  const store = createStore(rootReducer, middleware)
+  store = createStore(rootReducer, middleware)
   replayActionMain(store)
-
-  socket = new Socket(store)
   store.dispatch({ type: 'APP_INIT' })
 
-  createWindow()
+  screens.create(LOGIN_SCREEN)
+  socket = new Socket(store)
 })
 
 // Quit when all windows are closed.
@@ -90,7 +55,5 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
+  if (screens.isEmpty()) screens.create(LOGIN_SCREEN)
 })
