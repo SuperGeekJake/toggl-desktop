@@ -20,7 +20,7 @@ Built using the following technologies:
 
 `npm install`
 
-## Run Application
+### Run Application
 
 `npm start`
 
